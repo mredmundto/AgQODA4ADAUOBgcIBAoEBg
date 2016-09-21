@@ -1,0 +1,24 @@
+{
+  "name": "challenge",
+  "version": "1.0.0",
+  "description": "deleted",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "nodemon server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AfterShip/challenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AfterShip/challenge/issues"
+  },
+  "homepage": "https://github.com/AfterShip/challenge#readme",
+  "dependencies": {
+    "mongoose": "^4.6.1",
+    "nodemon": "^1.10.2"
+  }
+}
