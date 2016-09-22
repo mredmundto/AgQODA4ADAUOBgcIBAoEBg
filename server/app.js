@@ -13,7 +13,9 @@ db.once('open', function() {
   console.log('mongodb are connected')
 });
 
-scraper(); 
+scraper('USD', 'GBP'); 
+scraper('GBP', 'INR'); 
+
 // beansstalkd connected! 
 var fivebeans = require('fivebeans');
 var client = new fivebeans.client('challenge.aftership.net', 11300);
