@@ -10,14 +10,16 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
+  mongoose.Promise = global.Promise;
   console.log('mongodb are connected')
 });
 
 scraper('USD', 'GBP'); 
-scraper('GBP', 'INR'); 
+scraper('GBP', 'JPY'); 
 
 // beansstalkd connected! 
 var fivebeans = require('fivebeans');
+// got the port from the call with your API key 
 var client = new fivebeans.client('challenge.aftership.net', 11300);
 
 client

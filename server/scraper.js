@@ -1,6 +1,15 @@
 var request = require('request'); 
 var cheerio = require('cheerio'); 
 var rp = require('request-promise');
+var mongoose = require('mongoose');
+
+// define database schema 
+var Rate = mongoose.model('Rate', { 
+	from: String, 
+	to: String, 
+	created_at: Date, 
+	rate: String,  
+});
 
 var scraper = function(fromExRate, toExRate){
 
@@ -13,26 +22,37 @@ var scraper = function(fromExRate, toExRate){
 
 	rp(options)
   .then(function ($) {
+  	 	// scraping the website
   		var map = {}; 
       $('.rateCell').map(function(){
       	var pair = $(this).children().attr('rel').replace(/,|[0-9]/g, ""); 
       	var rate = $(this).text().replace(/\t+/g, "")
       	map[pair] = rate; 
       })
-      //console.log(map)
       return map[fromExRate + toExRate]; 
   })
   .then(function(rateInString){
+  	// save in database
   	var rateInNumber = Number(rateInString).toFixed(2); 
-		var obj = {
+		var obj = new Rate ({
 			"from": fromExRate, 
 			"to": toExRate, 
 			"created_at": new Date(), 
 			"rate": rateInNumber, 
-		}
-		
-		//saving to DB
-		console.log(obj)
+		})
+		obj.save(function (err) {
+		  if (err) {
+		    console.log(err);
+		  } else {
+		    console.log(obj);
+		    console.log('Saved in database')
+		    // checking to see if can get out 
+		    Rate.find({}, function(err, rate){
+		    	console.log('all rates', rate); 
+		    }).limit(3);
+		  }
+		});
+
   })
   	
 }
