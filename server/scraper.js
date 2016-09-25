@@ -44,12 +44,12 @@ var scraper = function(fromExRate, toExRate){
 		  if (err) {
 		    console.log(err);
 		  } else {
-		    console.log(obj);
+		    
 		    console.log('Saved in database')
 		    // checking to see if can get out 
 		    Rate.find({}, function(err, rate){
 		    	console.log('all rates', rate); 
-		    }).limit(3);
+		    }).limit(2);
 		  }
 		});
 
