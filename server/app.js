@@ -1,10 +1,13 @@
+// not in use 
+
 var scraper = require('./scraper.js');
 
 console.log('node server here')
 
 // run mongod in command line 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://USERNAME:PASSWORD@ds041586.mlab.com:41586/aftership-mredmundto');
+mongoose.connect('localhost');
+//mongoose.connect('mongodb://USERNAME:PASSWORD@ds041586.mlab.com:41586/aftership-mredmundto');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -14,8 +17,7 @@ db.once('open', function() {
   console.log('mongodb are connected')
 });
 
-scraper('USD', 'GBP'); 
-//scraper('GBP', 'JPY'); 
+scraper('USD', 'INR'); 
 
 // beansstalkd connected! 
 var fivebeans = require('fivebeans');
@@ -58,7 +60,6 @@ client.list_tube_used(function(err, tubename) {
 
 
 
-
 var Beanworker = require('fivebeans').worker;
 
 class IndexHandler {
@@ -71,6 +72,8 @@ class IndexHandler {
     callback('success');
   }
 }
+
+
 // Instantiate the class
 var handler = new IndexHandler();
 

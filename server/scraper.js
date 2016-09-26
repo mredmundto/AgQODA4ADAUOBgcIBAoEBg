@@ -1,18 +1,9 @@
 var request = require('request'); 
 var cheerio = require('cheerio'); 
 var rp = require('request-promise');
-var mongoose = require('mongoose');
-
-// define database schema 
-var Rate = mongoose.model('Rate', { 
-	from: String, 
-	to: String, 
-	created_at: Date, 
-	rate: String,  
-});
+var Rate = require('./db.js'); 
 
 var scraper = function(fromExRate, toExRate){
-
 	var options = {
 	    uri: 'http://www.xe.com',
 	    transform: function (body) {
@@ -49,7 +40,7 @@ var scraper = function(fromExRate, toExRate){
 		    // checking to see if can get out 
 		    Rate.find({}, function(err, rate){
 		    	console.log('all rates', rate); 
-		    }).limit(2);
+		    }).limit(3).sort({$natural:-1});
 		  }
 		});
 

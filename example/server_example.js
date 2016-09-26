@@ -1,13 +1,6 @@
 var fivebeans = require('fivebeans');
 var client = new fivebeans.client('localhost', 11300);
-
-var job1 = {
-  type: 'j_type',
-  payload: {
-    A: 1,
-    B: 2
-  }
-};
+var job1 = require('./job_example.js');
 
 client
   .on('connect', function(){
