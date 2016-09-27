@@ -7,14 +7,15 @@ const job1 = require('./job.js');
 
 // Create a class to handle the work load
 class IndexHandler {
-	constructor(A, B) {
+	constructor(fromExRate, toExRate) {
 		this.job1 = {
 			type: 'exchange'
 		};
 		this.successCount = 1;
+		this.failCount = 0;
 		this.payload = {
-			from: A,
-			to: B
+			from: fromExRate,
+			to: toExRate
 		};
 	}
   // work function is a named function
@@ -31,6 +32,7 @@ class IndexHandler {
 						console.log('this is error', err);
 					} else {
 						console.log('this is job ID', jobid);
+						//client.bury(jobid, 0, function(err) {});
 						self.successCount++;
 					}
 				});
