@@ -23,6 +23,10 @@ const scraper = function (job, callback) {
 			let rate = $(this).text().replace(/\t+/g, '');
 			map[pair] = rate;
 		});
+
+		if (map[fromExRate + toExRate] === undefined) {
+			job.failCount++;
+		}
 		return map[fromExRate + toExRate];
 	})
 	.then(function (rateInString) {
@@ -39,7 +43,6 @@ const scraper = function (job, callback) {
 				console.log('Saved in database', fromExRate, toExRate, rateInNumber);
 				job.successCount++;
 				callback('success');
-
 				Rate.find({}, function (err2, rate) {
 				//console.log('all rates', rate);
 				}).limit(3).sort({$natural: -1});

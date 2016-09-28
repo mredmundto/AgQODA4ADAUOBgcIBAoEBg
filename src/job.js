@@ -8,7 +8,7 @@ const job = {
 	successCount: 0,
 	successLimit: 10,
 	failCount: 0,
-	failLimt: 3
+	failLimit: 3
 };
 
 module.exports = job;
