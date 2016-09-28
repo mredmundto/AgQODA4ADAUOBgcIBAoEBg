@@ -3,13 +3,16 @@ const cheerio = require('cheerio');
 const rp = require('request-promise');
 const Rate = require('./db.js');
 
-const scraper = function (fromExRate, toExRate) {
+const scraper = function (job, callback) {
 	const options = {
 		uri: 'http://www.xe.com',
 		transform: function (body) {
 			return cheerio.load(body);
 		}
 	};
+
+	const fromExRate = job.payload.from;
+	const toExRate = job.payload.to;
 
 	rp(options)
 	.then(function ($) {
@@ -32,13 +35,15 @@ const scraper = function (fromExRate, toExRate) {
 			'rate': rateInNumber
 		});
 		obj.save(function (err) {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log('Saved in database');
+			if (err) { console.log(err); } else {
+				console.log('Saved in database', fromExRate, toExRate, rateInNumber);
+				job.successCount++;
+				callback('success');
+
 				Rate.find({}, function (err2, rate) {
-					console.log('all rates', rate);
+				//console.log('all rates', rate);
 				}).limit(3).sort({$natural: -1});
+
 			}
 		});
 	});
