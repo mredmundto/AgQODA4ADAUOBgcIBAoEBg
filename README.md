@@ -1,14 +1,11 @@
-# Want to join us?
+Going to re-write
 
-We always looking for talent.
+playgroud of the technologies of a coding challenge 
 
+1) Beanstalkd (done)
+2) Web scraper (done)
+3) mongoDB server at mLab(done)
+4) eslint setup (done)
+5) co (ok)
+6) bluebird (done)
 
-We think that having a challenge to:
-
-- test your coding skill
-- know how do you think
-- how to solve a problem
-
-is always interseted in our team.
-
-There are different challenges, you can switch the branch and try it even you are not going to join us.
