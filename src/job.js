@@ -3,7 +3,7 @@ const job = {
 	type: 'exchange',
 	payload: {
 		from: 'USD',
-		to: 'EUR'
+		to: 'HKD'
 	},
 	successCount: 0,
 	successLimit: 10,

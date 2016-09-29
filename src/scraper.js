@@ -15,32 +15,32 @@ const scraper = function (job, callback) {
 		return cheerio.load(html.body);
 	})
 	.then(($) => {
-		return $('td.rightCol').text().split('\n')[0].replace(/, |[A-Z]/g, '');
+		// grab the exchange rate and convert that to number
+		return Number($('td.rightCol').text().split('\n')[0].replace(/, |[A-Z]/g, '')).toFixed(2);
 	})
-	.then((rateInString) => {
-		let rateInNumber = Number(rateInString).toFixed(2);
+	.then((rate) => {
+
 		let obj = new Rate({
 			'from': fromExRate,
 			'to': toExRate,
 			'created_at': new Date(),
-			'rate': rateInNumber
+			'rate': rate
 		});
 		obj.save(function (err) {
 			if (err) {
 				throw 'can not save rate';
 			} else {
-				console.log('Saved in database', fromExRate, toExRate, rateInNumber);
+				console.log('Saved in database', fromExRate, toExRate, rate);
 				job.successCount++;
-				//callback();
+				callback();
 				Rate.find({}, function (err2, rate) {
-				//console.log('all rates', rate);
 				}).limit(3).sort({$natural: -1});
 			}
 		});
 	})
 	.catch(function (e) {
 		console.log('logging the error here:', e);
-		//callback();
+		callback();
 	})
 	;
 };
