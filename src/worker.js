@@ -23,7 +23,7 @@ class Handler {
 		} // not failing and keep putting that back for 10 times
 		else if (this.job.failCount < this.job.failLimit && this.job.successCount < this.job.successLimit) {
 			client.use('mredmundto', function (err, name) {
-				client.put(0, 5, 60, JSON.stringify(['mredmundto', self.job]), function (err2, jobid) {});
+				client.put(0, 10, 60, JSON.stringify(['mredmundto', self.job]), function (err2, jobid) {});
 			});
 		}
 	}

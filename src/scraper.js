@@ -8,15 +8,22 @@ const scraper = function (job, callback) {
 
 	const fromExRate = job.payload.from;
 	const toExRate = job.payload.to;
+	//const url = 'http://www.xe.com';
 	const url = 'http://www.xe.com/currencyconverter/convert/?Amount=1&From='+fromExRate+'&To='+toExRate;
 
 	request(url)
 	.then((html) => {
+		//console.log(html.body);
 		return cheerio.load(html.body);
 	})
 	.then(($) => {
 		// grab the exchange rate and convert that to number
-		return Number($('td.rightCol').text().split('\n')[0].replace(/, |[A-Z]/g, '')).toFixed(2);
+		let rate = Number($('td.rightCol').text().split('\n')[0].replace(/, |[A-Z]/g, '')).toFixed(2);
+		if (rate === undefined) {
+			throw 'we can not get the rate';
+		} else {
+			return rate;
+		};
 	})
 	.then((rate) => {
 
@@ -39,6 +46,7 @@ const scraper = function (job, callback) {
 		});
 	})
 	.catch(function (e) {
+		job.failCount++;
 		console.log('logging the error here:', e);
 		callback();
 	})
