@@ -6,9 +6,9 @@ const job = {
 		to: 'HKD'
 	},
 	successCount: 0,
-	successLimit: 3,
+	successLimit: 10,
 	failCount: 0,
-	failLimit: 2
+	failLimit: 3
 };
 
 module.exports = job;

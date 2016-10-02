@@ -88,11 +88,11 @@ function publishLevel(user_id, level_data) {
 //   });
 // }
 
-// function* myGenerator() {  
-//   yield 'first';
-//   let input = yield 'second';
-//   yield input;
-// }
+function* myGenerator() {  
+  yield 'first';
+  let input = yield 'second';
+  yield input;
+}
 
 // // Getting the generator object
 // let gen = myGenerator();

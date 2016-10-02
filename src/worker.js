@@ -5,10 +5,11 @@ const config = require('./config.js');
 const fivebeans = require('fivebeans');
 const client = new fivebeans.client(config.beanstalkd.address, config.beanstalkd.port);
 const Beanworker = require('fivebeans').worker;
+const co = require('co');
 
 // Create a class to handle the work load
 class Handler {
-	constructor(job) {
+	constructor (job) {
 		this.job = job;
 	}
 
@@ -16,16 +17,21 @@ class Handler {
 		let self = this;
 		client.connect();
 		scraper(this.job, callback);
+		
+		// co(function* () {
+		// 	let obj = yield Promise.resolve(scraper(self.job, callback));
+		// 	yield console.log(obj);
+		// });
 
 		// fail the first time and retrying for 3 times;
 		if (this.job.failCount > 0 && this.job.failCount < this.job.failLimit) {
-			client.use('mredmundto', function (err, name) {
-				client.put(0, 3, 60, JSON.stringify(['mredmundto', self.job]), function (err2, jobid) {});
+			client.use(config.beanstalkd.tubename, function (err, name) {
+				client.put(0, 3, 60, JSON.stringify([config.beanstalkd.tubename, self.job]), function (err2, jobid) {});
 			});
 		} // not failing and keep putting that back for 10 times
 		else if (this.job.failCount < this.job.failLimit && this.job.successCount < this.job.successLimit) {
-			client.use('mredmundto', function (err, name) {
-				client.put(0, 10, 60, JSON.stringify(['mredmundto', self.job]), function (err2, jobid) {});
+			client.use(config.beanstalkd.tubename, function (err, name) {
+				client.put(0, 10, 60, JSON.stringify([config.beanstalkd.tubename, self.job]), function (err2, jobid) {});
 			});
 		}
 	}

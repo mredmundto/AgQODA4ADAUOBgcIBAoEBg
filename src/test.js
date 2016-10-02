@@ -1,3 +1,4 @@
+'use strict';
 const should = require('chai').should();
 const scraper = require('./scraper.js');
 const job = require('./job.js');
@@ -16,4 +17,4 @@ describe('Unit testing', () => {
 		job.should.have.ownProperty('failCount');
 		job.should.have.ownProperty('failLimit');
 	});
-})
+});
