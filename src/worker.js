@@ -9,7 +9,7 @@ const co = require('co');
 
 // Create a class to handle the work load
 class Handler {
-	constructor (job) {
+	constructor(job) {
 		this.job = job;
 	}
 
@@ -17,11 +17,6 @@ class Handler {
 		let self = this;
 		client.connect();
 		scraper(this.job, callback);
-		
-		// co(function* () {
-		// 	let obj = yield Promise.resolve(scraper(self.job, callback));
-		// 	yield console.log(obj);
-		// });
 
 		// fail the first time and retrying for 3 times;
 		if (this.job.failCount > 0 && this.job.failCount < this.job.failLimit) {
@@ -31,7 +26,7 @@ class Handler {
 		} // not failing and keep putting that back for 10 times
 		else if (this.job.failCount < this.job.failLimit && this.job.successCount < this.job.successLimit) {
 			client.use(config.beanstalkd.tubename, function (err, name) {
-				client.put(0, 10, 60, JSON.stringify([config.beanstalkd.tubename, self.job]), function (err2, jobid) {});
+				client.put(0, 60, 60, JSON.stringify([config.beanstalkd.tubename, self.job]), function (err2, jobid) {});
 			});
 		}
 	}
@@ -39,13 +34,13 @@ class Handler {
 
 // Set options
 let options = {
-	id: '1', // The ID of the worker for debugging and tacking
-	host: config.beanstalkd.address, // The host to listen on
-	port: config.beanstalkd.port, // the port to listen on
+	id: '1',
+	host: config.beanstalkd.address,
+	port: config.beanstalkd.port,
 	handlers: {
-		'exchange': new Handler(job)  // setting handlers for types
+		'exchange': new Handler(job)
 	},
 	ignoreDefault: true
 };
-let worker = new Beanworker(options); // Instantiate a worker
-worker.start([config.beanstalkd.tubename]); // Listen on my_tube
+let worker = new Beanworker(options);
+worker.start([config.beanstalkd.tubename]);

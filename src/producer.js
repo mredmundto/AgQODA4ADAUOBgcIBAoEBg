@@ -12,4 +12,10 @@ client.on('connect', function () {
 		});
 	});
 })
+.on('error', function (err) {
+	console.log('Error connection from fivebeans', err);
+})
+.on('close', function () {
+  // underlying connection has closed
+})
 .connect();

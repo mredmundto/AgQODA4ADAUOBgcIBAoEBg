@@ -29,7 +29,7 @@ const scraper = function (job, callback) {
 			'created_at': new Date(),
 			'rate': rate
 		});
-
+		console.log(obj);
 		obj.save(function (err) {
 			if (err) {
 				throw 'can not save rate';
@@ -37,8 +37,6 @@ const scraper = function (job, callback) {
 				console.log('Saved in database', fromExRate, toExRate, rate);
 				job.successCount++;
 				callback();
-				// Rate.find({}, function (err2, rate) {
-				// }).limit(3).sort({$natural: -1});
 			}
 		});
 	})
