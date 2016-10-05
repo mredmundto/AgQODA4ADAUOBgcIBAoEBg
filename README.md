@@ -18,7 +18,7 @@ nodemon src/producer.js
 
 ```
 
-To start a worker 
+To start a worker, open another tap in the terminal 
 ```
 nodemon src/worker.js
 

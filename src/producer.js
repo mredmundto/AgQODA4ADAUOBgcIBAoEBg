@@ -7,7 +7,7 @@ const client = new fivebeans.client(config.beanstalkd.address, config.beanstalkd
 
 client.on('connect', function () {
 	client.use(config.beanstalkd.tubename, function (err, name) {
-		client.put(0, 0, 5, JSON.stringify([config.beanstalkd.tubename, job]), function (err2, jobid) {
+		client.put(0, 60, 5, JSON.stringify([config.beanstalkd.tubename, job]), function (err2, jobid) {
 			console.log('this is seeding the job', jobid);
 		});
 	});
