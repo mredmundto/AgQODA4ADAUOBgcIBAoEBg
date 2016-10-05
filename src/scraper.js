@@ -29,7 +29,6 @@ const scraper = function (job, callback) {
 			'created_at': new Date(),
 			'rate': rate
 		});
-		console.log(obj);
 		obj.save(function (err) {
 			if (err) {
 				throw 'can not save rate';
